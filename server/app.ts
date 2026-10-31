@@ -36,7 +36,7 @@ export function createApp(source: PortfolioSource, llm: Llm) {
   app.onError((err, c) => (err instanceof HTTPException ? err.getResponse() : c.json({ error: err.message }, 502)));
 
   app.get("/api/status", async (c) => {
-    return c.json({ ai: await aiConfigured(llm), model: llm.model.id, source: config.portfolioSource, gatewayUrl: config.gatewayUrl });
+    return c.json({ ai: await aiConfigured(llm), model: llm.model.id, source: config.portfolioSource, gatewayUrl: config.gatewayLoginUrl, hosted: !!config.publicHost });
   });
 
   app.get("/api/portfolio", async (c) => {

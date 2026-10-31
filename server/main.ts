@@ -5,7 +5,7 @@ import { config } from "./config.ts";
 import { IbkrSource } from "./sources/ibkr.ts";
 import { SampleSource } from "./sources/sample.ts";
 
-const source = config.portfolioSource === "sample" ? new SampleSource() : new IbkrSource(config.gatewayUrl, config.accountId);
+const source = config.portfolioSource === "sample" ? new SampleSource() : new IbkrSource(config.gatewayUrl, config.accountId, undefined, config.gatewayLoginUrl);
 
 const loopback = config.host === "127.0.0.1" || config.host === "localhost";
 if (!loopback && (!config.password || config.password.length < 16)) {

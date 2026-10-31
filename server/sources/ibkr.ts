@@ -78,6 +78,7 @@ export class IbkrSource implements PortfolioSource {
     private readonly baseUrl: string,
     private readonly preferredAccount?: string,
     private readonly fetchImpl: FetchLike = gatewayFetch,
+    private readonly loginUrl = baseUrl,
   ) {}
 
   private async call<T>(method: "GET" | "POST", path: string): Promise<T> {
@@ -93,7 +94,7 @@ export class IbkrSource implements PortfolioSource {
       throw new GatewayError(`Can't reach the gateway at ${this.baseUrl} (${(e as Error).message})`, "down");
     }
     if (res.status === 401 || res.status === 403) {
-      throw new GatewayError(`Log in at ${this.baseUrl} to connect your account`, "auth");
+      throw new GatewayError(`Log in at ${this.loginUrl} to connect your account`, "auth");
     }
     if (!res.ok) throw new GatewayError(`Gateway answered ${res.status} for ${path}`, "down");
     return (await res.json()) as T;

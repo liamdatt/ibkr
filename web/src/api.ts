@@ -9,7 +9,7 @@ export type Portfolio = {
   unrealizedPnl: number | null; positions: Position[]; updatedAt: number | null;
   dayChange: Record<string, number | null>;
 };
-export type Status = { ai: boolean; model: string; source: "ibkr" | "sample"; gatewayUrl: string };
+export type Status = { ai: boolean; model: string; source: "ibkr" | "sample"; gatewayUrl: string; hosted: boolean };
 export type Row = { symbol: string; name: string; price: number | null; changePercent: number | null };
 export type News = { title: string; publisher: string; link: string; publishedAt: string; tickers: string[] };
 export type Reading = { label: string; detail: string; lean: "bullish" | "bearish" | "neutral" };

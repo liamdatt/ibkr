@@ -5,18 +5,20 @@ import { Change, Failure, Loading } from "../components/Common";
 import { Treemap } from "../components/Treemap";
 import { direction, money, price } from "../format";
 
-function ConnectSteps({ portfolio, gatewayUrl }: { portfolio: Portfolio; gatewayUrl: string }) {
+function ConnectSteps({ portfolio, gatewayUrl, hosted }: { portfolio: Portfolio; gatewayUrl: string; hosted: boolean }) {
   const loggedOut = portfolio.status.state === "login_required";
   return (
     <section className="connect">
       <h1>{loggedOut ? "Log in to see your portfolio" : "Start the IBKR gateway to see your portfolio"}</h1>
       <p>{portfolio.status.detail}</p>
       <ol>
-        {!loggedOut && <li>Run the Client Portal Gateway: <code>bin/run.sh root/conf.yaml</code></li>}
-        <li>Open <a href={gatewayUrl} target="_blank" rel="noreferrer">{gatewayUrl}</a> in a browser on this machine and log in.</li>
+        {!loggedOut && !hosted && <li>Run the Client Portal Gateway: <code>bin/run.sh root/conf.yaml</code></li>}
+        {!loggedOut && hosted && <li>Start the gateway on the server: <code>deploy/gateway/run.sh</code></li>}
+        {hosted && <li>Open a tunnel from your computer: <code>ssh -N -L 5000:localhost:5000 root@{location.hostname}</code></li>}
+        <li>Open <a href={gatewayUrl} target="_blank" rel="noreferrer">{gatewayUrl}</a> in a browser{hosted ? "" : " on this machine"} and log in.</li>
         <li>This page connects by itself within a few seconds.</li>
       </ol>
-      <p className="quiet">To try the app first, set <code>PORTFOLIO_SOURCE=sample</code> in <code>.env</code> and restart.</p>
+      {!hosted && <p className="quiet">To try the app first, set <code>PORTFOLIO_SOURCE=sample</code> in <code>.env</code> and restart.</p>}
     </section>
   );
 }
@@ -29,7 +31,7 @@ export function PortfolioPage() {
   if (isPending) return <Loading what="your portfolio" />;
   if (error) return <Failure error={error} />;
   if (data.status.state === "gateway_down" || data.status.state === "login_required") {
-    return <ConnectSteps portfolio={data} gatewayUrl={status.data?.gatewayUrl ?? "https://localhost:5000"} />;
+    return <ConnectSteps portfolio={data} gatewayUrl={status.data?.gatewayUrl ?? "https://localhost:5000"} hosted={status.data?.hosted ?? false} />;
   }
   const currency = data.baseCurrency;
   const total = data.netLiquidation;

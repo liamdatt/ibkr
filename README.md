@@ -32,6 +32,18 @@ IBKR requires the browser login and the API calls to come from the same machine 
 
 The app keeps the session alive while it runs. IBKR still ends sessions periodically, and the Portfolio page then asks you to log in again.
 
+## Host it on a server
+
+`deploy/gateway/run.sh` runs the gateway in a container on the app's Docker network, published only on the server's loopback. Set `IBKR_GATEWAY_URL=https://ibkr-gateway:5000` and `IBKR_LOGIN_URL=https://localhost:5000` on the app.
+
+To log in, open a tunnel from your computer and visit https://localhost:5000:
+
+```bash
+ssh -N -L 5000:localhost:5000 root@your-server
+```
+
+The tunnel is only needed for the login. Never expose port 5000 publicly: a logged-in gateway acts on your account for anyone who can reach it.
+
 ## Where the data comes from
 
 | Data | Source |
