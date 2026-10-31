@@ -1,0 +1,45 @@
+{
+  "name": "ibkr-desk",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "dev": "concurrently -n api,web \"tsx watch --env-file-if-exists=.env server/main.ts\" \"vite\"",
+    "build": "vite build",
+    "start": "tsx --env-file-if-exists=.env server/main.ts",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@earendil-works/pi-agent-core": "^1.4.0",
+    "@earendil-works/pi-ai": "^1.4.0",
+    "@fontsource-variable/hanken-grotesk": "^5.3.0",
+    "@hono/node-server": "^2.1.5",
+    "@tanstack/react-query": "^5.105.0",
+    "d3-hierarchy": "^3.1.2",
+    "hono": "^4.13.14",
+    "lightweight-charts": "^5.2.1",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "react-markdown": "^10.1.0",
+    "react-router-dom": "^7.18.5",
+    "typebox": "^1.4.3",
+    "undici": "^8.12.3",
+    "yahoo-finance2": "^4.0.5"
+  },
+  "devDependencies": {
+    "@types/d3-hierarchy": "^3.1.7",
+    "@types/node": "^26.6.6",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react": "^6.1.2",
+    "concurrently": "^10.0.6",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.5",
+    "vitest": "^5.0.5"
+  }
+}
